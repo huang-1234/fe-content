@@ -53,13 +53,15 @@ export default function AddArticle() {
     return;
   }
 
+  const width_left_and_right = 24;
+
   return (
     <>
       <Row gutter={5}>
         
-        <Col span={18}>
+        <Col span={width_left_and_right}>
           {/* 左边的文章编写部分 */}
-          <Row gutter={10} >
+          <Row gutter={14} >
             {/* 文章标题 */}
             <Col span={20}>
               <Input
@@ -74,6 +76,17 @@ export default function AddArticle() {
                 <Option value="Sign Up">vidio</Option>
               </Select>
             </Col>
+            {/* 文章暂存,发布功能部分 */}
+            <Col span={6}>
+              <Row>
+                <Col span={24}>
+                  <Button size="large">草稿箱</Button>&nbsp;
+                  <Button type="primary" size="large" onClick={publicArti}>发布</Button>
+                  <br />
+                </Col>
+              </Row>
+
+            </Col>
           </Row>
           <br />
           {/* 中间的文章显示部分 */}
@@ -85,6 +98,7 @@ export default function AddArticle() {
                 placeholder="arti-content"
                 onChange={changeContent}
               />
+
             </Col>
             {/* 使用marked转换文章后的预览部分 */}
             <Col span={12}>
@@ -92,27 +106,13 @@ export default function AddArticle() {
                 dangerouslySetInnerHTML={{ __html: markdownContent }}
               >
               </div>
-
             </Col>
-
-            {/* 文章的功能 */}
-            
           </Row>
         </Col>
         
-        {/* 文章功能部分 */}
-        <Col span={6}>
-          <Row>
-            <Col span={24}>
-              <Button size="large">暂存</Button>&nbsp;
-              <Button type="primary" size="large" onClick={ publicArti}>发布</Button>
-              <br />
-            </Col>
-          </Row>
 
-        </Col>
         {/* 文章简介部分 */}
-        <Col span={24}>
+        <Col span={width_left_and_right}>
           <TextArea rows={4}
             placeholder="arti-introduce"
             onChange={changeIntroduce}

@@ -1,10 +1,11 @@
+import { Fragment } from 'react';
 import Main from './pages/Main'
 
 function App() {
   return (
-    <div className="App">
+    <Fragment key="App">
       <Main />
-    </div>
+    </Fragment>
   );
 }
 

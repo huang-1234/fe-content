@@ -31,7 +31,7 @@
     border-radius: 5px;
 }
 .show-html pre>code{
-    color: #000;
+    color: rgb(43, 164, 201);
     background-color: #f0f0f0;
 }
 .show-html code {
@@ -39,7 +39,7 @@
     padding: 5px 10px;
     border-radius: 5px;
     margin: 0px 3px; 
-    color: #ff502c; 
+    color: #2cffed; 
 }
 .show-html blockquote{
     border-left:4px solid #cbcbcb ;
@@ -75,7 +75,7 @@
     border-radius: 5px;
 }
 .introduce-html pre>code{
-    color: #000;
+    color: rgb(67, 184, 184);
     background-color: #f0f0f0;
 }
 .introduce-html code {
