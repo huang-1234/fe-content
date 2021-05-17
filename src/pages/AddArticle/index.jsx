@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import marked from 'marked';
-import { Row, Col, Input, Select, Button, DatePicker } from 'antd';
+import { Row, Col, Input, Select, Button, DatePicker, message } from 'antd';
 
 import '../static/css/AddArtcle.css';
 
@@ -62,6 +62,7 @@ export default function AddArticle(props) {
 
 
   function getTypeInfo() {
+
     axios({
       method: 'get',
       url: servicePath.getTypeInfo,
@@ -81,12 +82,74 @@ export default function AddArticle(props) {
   // 只执行一次
   useEffect(() => {
     getTypeInfo();
-  }, [] )
+  }, []);
+
+  // 保存文章的印证
+  function saveArticle() {
+    // markedContent();  //先进行转换
+    if (!selectedType) {
+      message.error('必须选择文章类别')
+      return false
+    } else if (!articleTitle) {
+      message.error('文章名称不能为空')
+      return false
+    } else if (!articleContent) {
+      message.error('文章内容不能为空')
+      return false
+    } else if (!introducemd) {
+      message.error('简介不能为空')
+      return false
+    } else if (!showDate) {
+      message.error('发布日期不能为空')
+      return false
+    }
+    message.success('检验通过');
+
+    // 这里可以优化，不应该让一个对象反复的添加对象
+    let dataProps = {}   //传递到接口的参数
+    
+    dataProps.type_id = selectedType
+    dataProps.title = articleTitle
+    dataProps.article_content = articleContent
+    dataProps.introduce = introducemd
+    let datetext = showDate.replace('-', '/') //把字符串转换成时间戳
+    dataProps.addTime = (new Date(datetext).getTime()) / 1000;
+    
+
+    if (0===articleId) {
+      console.log('pages/AddArticle/index.jsx--articleId=:' + articleId);
+      dataProps.view_count = Math.ceil(Math.random() * 100) + 1000;
+      dataProps.articleId = (new Date().getTime()) / 1000 + 12;
+
+      // addArticle POST请求
+      console.log('/pages/AddArticle/index.jsx---dataProps.articleId,title:', dataProps.articleId, dataProps.title);
+      axios({
+        method: 'post',
+        url: servicePath.addArticle,
+        data: dataProps,
+        withCredentials: true
+      }).then(
+        res => {
+          const insertId = res.data.insertId;
+          console.log('/pages/AddArticle/index.jsx---insertId', insertId);
+          setArticleId(insertId)
+          if (res.data.isScuccess) {
+            message.success('arti_save_successfully')
+          } else {
+            message.error('failed_save_arti');
+          }
+        }
+      )
+    } else {
+      // dataProps
+    }
+  }
+
 
   return (
     <>
       <Row gutter={5}>
-        
+        {/* 两个主要的显示区域 */}
         <Col span={width_left_and_right}>
           {/* 左边的文章编写部分 */}
           <Row gutter={14} >
@@ -115,7 +178,7 @@ export default function AddArticle(props) {
               <Row>
                 <Col span={24}>
                   <Button size="large">草稿箱</Button>&nbsp;
-                  <Button type="primary" size="large" onClick={publicArti}>发布</Button>
+                  <Button type="primary" size="large" onClick={saveArticle}>发布</Button>
                   <br />
                 </Col>
               </Row>
@@ -144,7 +207,16 @@ export default function AddArticle(props) {
           </Row>
         </Col>
         
-
+        {/* 标题对应的文本框 */}
+        <Col span={16}>
+          <Input
+            value={articleTitle}
+            placeholder="博客标题"
+            onChange={e => {
+              setArticleTitle(e.target.value)
+            }}
+            size="large" />
+        </Col>
         {/* 文章简介部分 */}
         <Col span={width_left_and_right}>
           <TextArea rows={4}
@@ -161,6 +233,7 @@ export default function AddArticle(props) {
             <DatePicker
               placeholder="发布日期"
               size="large"
+              onChange={(date,dateString)=>setShowDate(dateString)}
             />
           </div>
         </Col>
