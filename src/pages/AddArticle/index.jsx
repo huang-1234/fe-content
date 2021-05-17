@@ -17,7 +17,8 @@ export default function AddArticle(props) {
   const [articleTitle, setArticleTitle] = useState('')   //文章标题
 
   const [articleContent, setArticleContent] = useState('')  //markdown的编辑内容
-  const [markdownContent, setMarkdownContent] = useState('预览内容') //html内容
+  const [markdownContent, setMarkdownContent] = useState('预览内容') //html内容(预览内容)
+  
   const [introducemd, setIntroducemd] = useState()            //简介的markdown内容
   const [introducehtml, setIntroducehtml] = useState('等待编辑') //简介的html内容
 
@@ -54,9 +55,6 @@ export default function AddArticle(props) {
     setIntroducehtml(html)
   }
 
-  function publicArti(){
-    return;
-  }
 
   const width_left_and_right = 24;
 
@@ -114,6 +112,10 @@ export default function AddArticle(props) {
     dataProps.introduce = introducemd
     let datetext = showDate.replace('-', '/') //把字符串转换成时间戳
     dataProps.addTime = (new Date(datetext).getTime()) / 1000;
+    // dataProps.part_count = partCount
+    // dataProps.article_content_html = markdownContent
+    // dataProps.introduce_html = introducehtml
+
     
 
     if (0===articleId) {
@@ -141,9 +143,56 @@ export default function AddArticle(props) {
         }
       )
     } else {
-      // dataProps
+      dataProps.articleId = articleId
+      axios({
+        method: 'post',
+        url: servicePath.updateArticle,
+        header: { 'Access-Control-Allow-Origin': '*' },
+        data: dataProps,
+        withCredentials: true
+      }).then(
+        res => {
+          if (res.data.isScuccess) {
+            message.success('文章保存成功')
+          } else {
+            message.error('保存失败');
+          }
+        }
+      )
     }
   }
+
+
+  // getArticleById
+  const getArticleById = (id) => {
+    axios(servicePath.getArticleById + id, {
+      withCredentials: true,
+      header: { 'Access-Control-Allow-Origin': '*' }
+    }).then(
+      res => {
+        //let articleInfo= res.data.data[0]
+        setArticleTitle(res.data.data[0].title)
+        setArticleContent(res.data.data[0].article_content)
+        let html = marked(res.data.data[0].article_content)
+        setMarkdownContent(html)
+        setIntroducemd(res.data.data[0].introduce)
+        let tmpInt = marked(res.data.data[0].introduce)
+        setIntroducehtml(tmpInt)
+        setShowDate(res.data.data[0].addTime)
+        setSelectType(res.data.data[0].typeId)
+
+      }
+    )
+  }
+  useEffect(() => {
+    getTypeInfo()
+    //获得文章ID
+    let tmpId = props.match.params.id
+    if (tmpId) {
+      setArticleId(tmpId)
+      getArticleById(tmpId)
+    }
+  }, [])
 
 
   return (
