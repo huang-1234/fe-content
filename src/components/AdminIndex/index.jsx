@@ -18,6 +18,8 @@ export default function AdminIndex() {
   const onCollapse = collapsed => {
     setCollapsed(collapsed)
   };
+
+  
   return (
     <>
       <Layout style={{ minHeight: '100vh' }}>
@@ -36,10 +38,9 @@ export default function AdminIndex() {
             </Menu.Item>
             <SubMenu
               key="sub1"
+              icon={< VideoCameraOutlined />}
               title={
-                <span
-                  icon={< VideoCameraOutlined />}
-                >
+                <span>
                   <span>arti-mng</span>
                 </span>
               }

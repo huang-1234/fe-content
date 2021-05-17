@@ -1,21 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import marked from 'marked';
 import { Row, Col, Input, Select, Button, DatePicker } from 'antd';
 
 import '../static/css/AddArtcle.css';
 
+import axios from 'axios';
+import servicePath from '../../config/apiUrl';
+
 const { Option } = Select;
 const { TextArea } = Input;
 
-export default function AddArticle() {
+export default function AddArticle(props) {
 
 
   const [articleId, setArticleId] = useState(0)  // 文章的ID，如果是0说明是新增加，如果不是0，说明是修改
   const [articleTitle, setArticleTitle] = useState('')   //文章标题
+
   const [articleContent, setArticleContent] = useState('')  //markdown的编辑内容
   const [markdownContent, setMarkdownContent] = useState('预览内容') //html内容
   const [introducemd, setIntroducemd] = useState()            //简介的markdown内容
   const [introducehtml, setIntroducehtml] = useState('等待编辑') //简介的html内容
+
   const [showDate, setShowDate] = useState()   //发布日期
   const [updateDate, setUpdateDate] = useState() //修改日志的日期
   const [typeInfo, setTypeInfo] = useState([]) // 文章类别信息
@@ -55,6 +60,29 @@ export default function AddArticle() {
 
   const width_left_and_right = 24;
 
+
+  function getTypeInfo() {
+    axios({
+      method: 'get',
+      url: servicePath.getTypeInfo,
+      header: { 'Access-Control-Allow-Origin': '*' },
+      withCredentials: true
+    }).then(
+      (res) => {
+        if ('没有登录' === res.data.data) {
+          localStorage.removeItem('openID');
+          props.history.push('/login/');
+        } else {
+          setTypeInfo(res.data.data);
+        }
+      }
+    )
+  }
+  // 只执行一次
+  useEffect(() => {
+    getTypeInfo();
+  }, [] )
+
   return (
     <>
       <Row gutter={5}>
@@ -72,8 +100,14 @@ export default function AddArticle() {
             <Col span={4}>
               &nbsp;
               {/* 文章分类 */}
-              <Select defaultValue="Sign Up" size="large">
-                <Option value="Sign Up">vidio</Option>
+              <Select defaultValue={selectedType} size="large">
+                {
+                  typeInfo.map((item,index)=>{
+                    return (<Option key={index} value={item.id}>{item.typeName}</Option>)
+                  })
+
+                }
+                {/* <Option value="Sign Up">vidio</Option> */}
               </Select>
             </Col>
             {/* 文章暂存,发布功能部分 */}

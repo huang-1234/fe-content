@@ -14,14 +14,17 @@
 
 .show-html h1{
     font-size:30px;
+    color:blue;
 }
 
 .show-html h2{
     font-size:28px;
     border-bottom: 1px solid #cbcbcb;
+    color:red;
 }
 .show-html h3{
     font-size:24px;
+    color:green;
 }
 
 .show-html pre{

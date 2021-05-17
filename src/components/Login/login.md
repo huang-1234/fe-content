@@ -171,3 +171,23 @@ hostname: HSQ
     }
   }
 ```
+
+输入账号：huang
+输入密码：shuiqing
+这些数据库当中也有，但是就是没法跳转路由
+
+## 解决问题
+我在service/router/admin.js里写的是
+```js
+router.get('/admin/index',  controller.admin.main.index);
+router.get('/admin/getTypeInfo', adminauth,controller.admin.main.getTypeInfo);
+```
+
+查了后端的路由守卫的使用应该是
+
+```js
+router.get('/admin/index', adminauth, controller.admin.main.index);
+router.get('/admin/getTypeInfo', controller.admin.main.getTypeInfo);
+```
+
+这样的错误以后不可犯了

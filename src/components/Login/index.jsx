@@ -1,5 +1,5 @@
 
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import 'antd/dist/antd.css';
 import { Card, Input, Button, Spin, message } from 'antd';
 import { KeyOutlined, UserOutlined} from '@ant-design/icons';
@@ -8,13 +8,17 @@ import '../static/css/Login.css';
 
 import axios from 'axios';
 import servicePath from '../../config/apiUrl';
+import { LOGIN_SUCCESSFULLY, LOGIN_FAILED} from './login_constant'
 
 function Login(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  const [typeInfo, setTypeInfo] = useState([]) // 文章类别信息
+
   function checkLogin() {
+    console.log('admin:username:',username,'password:',password);
     setIsLoading(true);
 
     if (!username) {
@@ -41,17 +45,31 @@ function Login(props) {
       withCredentials:true   //前后端是否共享session
     }).then(
       (res) => {
+        console.log('res.data:', res.data);
+        const loginStatus = res.data.data;
         setIsLoading(false);
-        if ('login_successfully' == res.data.data) {
+        if (LOGIN_SUCCESSFULLY === loginStatus) {
           // 判断用户的账户密码是否在数据库当中，以及是否正确，正确，则跳转到登录后的首页，否则直接else报错
-          localStorage.setItem('openID', res.data.openID);
+          // 使用window.localStorage
+          // const lStorage = window.localStorage;
+          // lStorage.setItem('openID', res.data.openID);
+          // console.log("lStorage['openID']:", lStorage['openID']);
+
+          // 使用window.sessionStorage
+          const sStorage = window.sessionStorage;
+          sStorage.setItem('openID', res.data.openID);
+          console.log("sStorage['openID']:", sStorage['openID']);
+
+
+          console.log(props.history);
           props.history.push('/index');
-        } else {
-          props.history.push('/login/');
+        } else if (LOGIN_FAILED === loginStatus) {
+          // props.history.push('/login/');
           message.error('username or password was wrong');
         }
     })
   }
+
   return (
     <>
       <div className="login-div">
@@ -65,7 +83,7 @@ function Login(props) {
             <Input.Password
               id="password"
               size="large"
-              placeholder="Enter your password"
+              placeholder="please input your password"
               prefix={<KeyOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               onChange={(e) => { setPassword(e.target.value) }}
             />
