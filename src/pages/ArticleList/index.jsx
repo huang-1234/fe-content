@@ -16,6 +16,7 @@ function ArticleList(props) {
 
   //得到文章列表
   const getArticleList = () => {
+    
     axios({
       method: 'get',
       url: servicePath.getArticleList,
@@ -23,6 +24,9 @@ function ArticleList(props) {
       header: { 'Access-Control-Allow-Origin': '*' }
     }).then(
       res => {
+        // 这个请求是相当的频繁
+        const ArtiList = res.data.list;
+         console.log('ArtiList:', ArtiList);
         setList(res.data.list)
 
       }
@@ -30,18 +34,20 @@ function ArticleList(props) {
   }
   // 当我们进入页面的使用，就希望可以获得博客文章的列表，所以要使用useEffect()方法来进行操作
   useEffect(() => {
+    console.log('这里的getArticleList是通过useEffect吊用的');
     getArticleList();
   })
 
   //删除文章的方法
   const delArticle = (id) => {
     confirm({
-      title: '确定要删除这篇博客文章吗?',
+      title: '确定要删除这篇文章吗?',
       content: '如果你点击OK按钮，文章将会永远被删除，无法恢复。',
       onOk() {
         axios(servicePath.delArticle + id, { withCredentials: true }).then(
           res => {
             message.success('文章删除成功');
+            console.log('这里的getArticleList是通过delArticle吊用的');
             getArticleList();
           }
         )
@@ -54,6 +60,7 @@ function ArticleList(props) {
 
   //修改文章
   const updateArticle = (id, checked) => {
+    console.log('updateArticle.id----------',id);
     props.history.push('/index/add/' + id)
 
   }
@@ -74,9 +81,9 @@ function ArticleList(props) {
             <Col span={3}>
               <b>发布时间</b>
             </Col>
-            <Col span={3}>
+            {/* <Col span={3}>
               <b>集数</b>
-            </Col>
+            </Col> */}
             <Col span={3}>
               <b>浏览量</b>
             </Col>
@@ -100,14 +107,14 @@ function ArticleList(props) {
               <Col span={3}>
                 {item.addTime}
               </Col>
-              <Col span={3}>
+              {/* <Col span={3}>
                 共<span>{item.part_count}</span>集
-              </Col>
+              </Col> */}
               <Col span={3}>
                 {item.view_count}
               </Col>
               <Col span={4}>
-                <Button type="primary" >修改</Button>&nbsp;
+                <Button type="primary" onClick={updateArticle} >修改</Button>&nbsp;
                 <Button onClick={() => { delArticle(item.id) }} >删除 </Button>
               </Col>
             </Row>

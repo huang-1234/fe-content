@@ -1,0 +1,98 @@
+html {
+  font-size: 10px;
+}
+
+@min-font-size: 1.4rem;
+@max-font-size: 1.6rem;
+@min-screen: 375px;
+@max-screen: 1125px;
+
+body {
+  background-color: #f0f0f0;
+
+}
+
+.login-div {
+  /* margin: 150px auto; */
+  margin: 9.375rem auto;
+  // width: 400px; 
+  width: 35rem;
+  font-size: @min-font-size;
+  display: flex;
+  justify-content: center;
+  border: 5px green;
+  border-radius: 50%;
+  .login-btn{
+    // width: 10rem;
+    border: 1px solid rgb(77, 0, 128);
+    border-radius: 1rem;
+  }
+}
+
+
+/* 忘记密码的模块 */
+.forget-password {
+  /* right: 0.2rem; */
+  width: fit-content;
+  margin: 1rem auto;
+}
+
+/* 注册的 */
+.rejister-box {
+  width: fit-content;
+  margin: 2rem auto;
+  background-color: green;
+  border: 1px solid rgb(77, 0, 128);
+  border-radius: 1rem;
+}
+
+.rejister-box rejister {
+  margin: 2rem auto;
+  color: #f0f0f0;
+}
+
+
+/* 用CSS实现响应式布局 */
+@media screen and (max-width:@min-screen) {
+  body {
+    background-color: grey;
+  }
+
+  .login-div {
+    font-size: @min-font-size;
+    display: flex;
+    justify-content: center;
+    /* margin: 150px auto; */
+    margin: 9.375rem auto;
+    /* width: 400px; */
+    width: 12rem;
+    // height: 15rem;
+    border: 5px green;
+    border-radius: 50%;
+      .login-btn {
+        // width: 10rem;
+        border: 1px solid rgb(77, 0, 128);
+        border-radius: 1rem;
+      }
+    /* 忘记密码的模块 */
+    .forget-password {
+      /* right: 0.2rem; */
+      width: fit-content;
+      margin: 1rem auto;
+    }
+
+    /* 注册的 */
+    .rejister-box {
+      width: fit-content;
+      margin: 2rem auto;
+      background-color: green;
+      border: 1px solid rgb(77, 0, 128);
+      border-radius: 1rem;
+    }
+
+    .rejister-box rejister {
+      margin: 2rem auto;
+      color: #f0f0f0;
+    }
+  }
+}

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import marked from 'marked';
+import hljs from 'highlight.js'
+import 'highlight.js/styles/github.css';
+
 import { Row, Col, Input, Select, Button, DatePicker, message } from 'antd';
 
 import '../static/css/AddArtcle.css';
@@ -27,6 +30,16 @@ export default function AddArticle(props) {
   const [typeInfo, setTypeInfo] = useState([]) // 文章类别信息
   const [selectedType, setSelectType] = useState(1) //选择的文章类别
 
+   useEffect(() => {
+     console.log('props.match----', props.match);
+    getTypeInfo()
+    let tmpId = props.match.params.id
+    if (tmpId) {
+      setArticleId(tmpId)
+      getArticleById(tmpId)
+    }
+  }, []);
+
   // 声明完成后需要对marked进行基本的设置
   marked.setOptions({
     renderer: marked.Renderer(),
@@ -37,6 +50,9 @@ export default function AddArticle(props) {
     breaks: false,
     smartLists: true,
     smartypants: false,
+    highlight: function (code) {
+      return hljs.highlightAuto(code).value;
+    },
   });
 
   /* 
@@ -82,7 +98,7 @@ export default function AddArticle(props) {
     getTypeInfo();
   }, []);
 
-  // 保存文章的印证
+  // 保存文章的验证
   function saveArticle() {
     // markedContent();  //先进行转换
     if (!selectedType) {
@@ -101,11 +117,10 @@ export default function AddArticle(props) {
       message.error('发布日期不能为空')
       return false
     }
-    message.success('检验通过');
+    message.success('your article is valid');
 
     // 这里可以优化，不应该让一个对象反复的添加对象
     let dataProps = {}   //传递到接口的参数
-    
     dataProps.type_id = selectedType
     dataProps.title = articleTitle
     dataProps.article_content = articleContent
@@ -116,15 +131,13 @@ export default function AddArticle(props) {
     // dataProps.article_content_html = markdownContent
     // dataProps.introduce_html = introducehtml
 
-    
-
-    if (0===articleId) {
-      console.log('pages/AddArticle/index.jsx--articleId=:' + articleId);
+    if (0===articleId) {  
+       console.log('pages/AddArticle/index.jsx--articleId=:' + articleId);
       dataProps.view_count = Math.ceil(Math.random() * 100) + 1000;
       dataProps.articleId = (new Date().getTime()) / 1000 + 12;
 
       // addArticle POST请求
-      console.log('/pages/AddArticle/index.jsx---dataProps.articleId,title:', dataProps.articleId, dataProps.title);
+       console.log('/pages/AddArticle/index.jsx---dataProps.articleId,title:', dataProps.articleId, dataProps.title);
       axios({
         method: 'post',
         url: servicePath.addArticle,
@@ -132,17 +145,21 @@ export default function AddArticle(props) {
         withCredentials: true
       }).then(
         res => {
-          const insertId = res.data.insertId;
-          console.log('/pages/AddArticle/index.jsx---insertId', insertId);
-          setArticleId(insertId)
-          if (res.data.isScuccess) {
-            message.success('arti_save_successfully')
+           const insertId = res.data.insertId;
+           console.log('/pages/AddArticle/index.jsx---insertId', insertId);
+          setArticleId(insertId);
+           const save_arti_data = res.data;
+           console.log('/AddArticle/saveArticle/save_arti_data---:,', save_arti_data);
+          if (res.data.isSuccess) {
+            message.success('arti_save_successfully');
           } else {
-            message.error('failed_save_arti');
+             message.error('failed_save_arti');
           }
         }
       )
     } else {
+      const artiId = (new Date().getTime()) / 1000 + 12;
+      setArticleId(artiId)
       dataProps.articleId = articleId
       axios({
         method: 'post',
@@ -155,11 +172,12 @@ export default function AddArticle(props) {
           if (res.data.isScuccess) {
             message.success('文章保存成功')
           } else {
-            message.error('保存失败');
+             message.error('保存失败');
           }
         }
       )
     }
+    // 文章发布之后的操作
   }
 
 
@@ -184,15 +202,15 @@ export default function AddArticle(props) {
       }
     )
   }
-  useEffect(() => {
-    getTypeInfo()
-    //获得文章ID
-    let tmpId = props.match.params.id
-    if (tmpId) {
-      setArticleId(tmpId)
-      getArticleById(tmpId)
-    }
-  }, [])
+  //  useEffect(() => {
+  //   getTypeInfo()
+  //   //获得文章ID
+  //   let tmpId = props.match.params.id
+  //   if (tmpId) {
+  //     setArticleId(tmpId)
+  //     getArticleById(tmpId)
+  //   }
+  // }, [])
 
 
   return (
@@ -206,7 +224,12 @@ export default function AddArticle(props) {
             <Col span={20}>
               <Input
                 placeholder="arti-Title"
-                size="large" />
+                size="large"
+                value={articleTitle}
+                onChange={e => {
+                  setArticleTitle(e.target.value)
+                }}
+              />
             </Col>
             {/* 选择 */}
             <Col span={4}>
@@ -217,9 +240,7 @@ export default function AddArticle(props) {
                   typeInfo.map((item,index)=>{
                     return (<Option key={index} value={item.id}>{item.typeName}</Option>)
                   })
-
                 }
-                {/* <Option value="Sign Up">vidio</Option> */}
               </Select>
             </Col>
             {/* 文章暂存,发布功能部分 */}
@@ -257,7 +278,7 @@ export default function AddArticle(props) {
         </Col>
         
         {/* 标题对应的文本框 */}
-        <Col span={16}>
+{/*         <Col span={16}>
           <Input
             value={articleTitle}
             placeholder="博客标题"
@@ -265,7 +286,7 @@ export default function AddArticle(props) {
               setArticleTitle(e.target.value)
             }}
             size="large" />
-        </Col>
+        </Col> */}
         {/* 文章简介部分 */}
         <Col span={width_left_and_right}>
           <TextArea rows={4}
