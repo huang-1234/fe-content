@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {
-  // BrowserRouter as Router,
   Route,
   // Link
 } from 'react-router-dom';
@@ -70,8 +69,8 @@ export default function AdminIndex(props) {
       console.log('/creator/add');
       props.history.push('/creator/add')
     } else if ('arti-list' === e.key) {
-      console.log('/creator/list/');
-      props.history.push('/creator/list/')
+      console.log('/creator/content/article/essays/');
+      props.history.push('/creator/content/article/essays/')
     }
   }
 
@@ -170,7 +169,8 @@ export default function AdminIndex(props) {
                 <Route path="/creator/" exact component={AddArticle} />
                 <Route path="/creator/add/" exact  component={AddArticle} />
                 <Route path="/creator/add/:id" exact  component={AddArticle} />
-                <Route path="/creator/list/" exact component={ArticleList} />
+                <Route path="/creator/content/article/essays/" exact component={ArticleList} />
+
                 <Route path="/creator/home/" exact component={CreatorHome} />
 
                 {/* data-center */}
@@ -180,11 +180,6 @@ export default function AdminIndex(props) {
             </div>
 
           </Content>
-{/*           
-          <Footer style={{ textAlign: 'center' }}>
-            <a href="https://huang-1234.github.io/">https://huang-1234.github.io</a>
-          </Footer>
-           */}
         </Layout>
       </Layout>
     </>

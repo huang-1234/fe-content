@@ -20,25 +20,16 @@ export default function AddArticle(props) {
   const [articleTitle, setArticleTitle] = useState('')   //文章标题
 
   const [articleContent, setArticleContent] = useState('')  //markdown的编辑内容
-  const [markdownContent, setMarkdownContent] = useState('预览内容') //html内容(预览内容)
+  const [markdownContent, setMarkdownContent] = useState('') //html内容(预览内容)
   
   const [introducemd, setIntroducemd] = useState()            //简介的markdown内容
-  const [introducehtml, setIntroducehtml] = useState('等待编辑') //简介的html内容
+  const [introducehtml, setIntroducehtml] = useState('article introduce') //简介的html内容
 
   const [showDate, setShowDate] = useState()   //发布日期
   const [updateDate, setUpdateDate] = useState() //修改日志的日期
   const [typeInfo, setTypeInfo] = useState([]) // 文章类别信息
   const [selectedType, setSelectType] = useState(1) //选择的文章类别
 
-   useEffect(() => {
-     console.log('props.match----', props.match);
-    getTypeInfo()
-    let tmpId = props.match.params.id
-    if (tmpId) {
-      setArticleId(tmpId)
-      getArticleById(tmpId)
-    }
-  }, []);
 
   // 声明完成后需要对marked进行基本的设置
   marked.setOptions({
@@ -72,7 +63,7 @@ export default function AddArticle(props) {
   }
 
 
-  const width_left_and_right = 24;
+
 
 
   function getTypeInfo() {
@@ -202,20 +193,21 @@ export default function AddArticle(props) {
       }
     )
   }
-  //  useEffect(() => {
-  //   getTypeInfo()
-  //   //获得文章ID
-  //   let tmpId = props.match.params.id
-  //   if (tmpId) {
-  //     setArticleId(tmpId)
-  //     getArticleById(tmpId)
-  //   }
-  // }, [])
+   useEffect(() => {
+    getTypeInfo()
+    //获得文章ID
+    let tmpId = props.match.params.id
+    if (tmpId) {
+      setArticleId(tmpId)
+      getArticleById(tmpId)
+    }
+  }, [])
 
+  const width_left_and_right = 24;
 
   return (
     <>
-      <Row gutter={5}>
+      <Row gutter={2}>
         {/* 两个主要的显示区域 */}
         <Col span={width_left_and_right}>
           {/* 左边的文章编写部分 */}
@@ -276,17 +268,6 @@ export default function AddArticle(props) {
             </Col>
           </Row>
         </Col>
-        
-        {/* 标题对应的文本框 */}
-{/*         <Col span={16}>
-          <Input
-            value={articleTitle}
-            placeholder="博客标题"
-            onChange={e => {
-              setArticleTitle(e.target.value)
-            }}
-            size="large" />
-        </Col> */}
         {/* 文章简介部分 */}
         <Col span={width_left_and_right}>
           <TextArea rows={4}

@@ -14,7 +14,7 @@ function App() {
       <BrowserRouter>
         <Route path="/login/" exact component={Login} />
         <Route path="/creator/" component={AdminIndex} />
-        <Redirect to="/login/" component={AdminIndex} />
+        {/* <Redirect to="/login/" component={AdminIndex} /> */}
       </BrowserRouter>
       <Footer style={{ textAlign: 'center' }}>
         <Tag icon={<HomeOutlined />} color="#cd201f">

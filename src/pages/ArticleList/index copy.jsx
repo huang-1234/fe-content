@@ -2,18 +2,16 @@
 import React, { useState, useEffect } from 'react';
 // import '../static/css/ArticleList.css';
 import {
-  Skeleton,
-  List, Space , Modal, message, Button,
+  List, Row, Col, Modal, message, Button,
+  // Switch
 } from 'antd';
-import { ClockCircleOutlined, StarOutlined, LikeOutlined, MessageOutlined,EyeOutlined } from '@ant-design/icons'
-import './ArticleList.css'
-
 import axios from 'axios';
 import servicePath from '../../config/apiUrl';
 
 const { confirm } = Modal;
 
 const routerCreatorAdd = '/creator/add/?id=';
+
 
 function ArticleList(props) {
 
@@ -71,64 +69,63 @@ function ArticleList(props) {
 
   }
   
-  const IconText = ({ icon, text }) => (
-    <Space>
-      {React.createElement(icon)}
-      {text}
-    </Space>
-  );
-  // mock数据
-  const listData = [];
-  for (let i = 0;i < 5;i++) {
-    listData.push({
-      href: 'https://huang-1234.github.io/',
-      title: `ant design part ${i}`,
-      star: 15,
-      addTime: '20210520',
-      view_count: 10086,
-      typeName:'js'
-    });
-  }
+
   return (
-    <>
-      
+    <div>
       <List
-        itemLayout="vertical"
+        header={
+          <Row className="list-div">
+            {/* 使用b标签加粗效果，下面的span一共加以来等于24，就是格栅化 */}
+            <Col span={8}>
+              <b>标题</b>
+            </Col>
+            <Col span={3}>
+              <b>类别</b>
+            </Col>
+            <Col span={3}>
+              <b>发布时间</b>
+            </Col>
+            {/* <Col span={3}>
+              <b>集数</b>
+            </Col> */}
+            <Col span={3}>
+              <b>浏览量</b>
+            </Col>
+
+            <Col span={4}>
+              <b>操作</b>
+            </Col>
+          </Row>
+        }
         bordered
         dataSource={list}
-        // loadMore={<Skeleton />}
         renderItem={item => (
-          <List.Item
-            key={item.title}
-            actions={[
-              <IconText icon={ClockCircleOutlined} text={item.addTime} key="list-vertical-addTime-o" />,
-              <IconText icon={StarOutlined} text={item.star} key="list-vertical-star-o" />,
-              <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
-              <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
-              <IconText icon={EyeOutlined} text={item.view_count} key="list-vertical-view_count" />,
-            ]}
-          >
-            {/* <List.Item.Meta
-              title={
-                <a href={item.href}>
-                  {item.title}
-                </a>
-              }
-            /> */}
-
-            <span id="articleList-span">
-              <a href={item.href}>
+          <List.Item>
+            <Row className="list-div">
+              <Col span={8}>
                 {item.title}
-              </a>
-              <span>
-                <Button type="primary" onClick={() => {updateArticle(item.id)}} >修改</Button>
+              </Col>
+              <Col span={3}>
+                {item.typeName}
+              </Col>
+              <Col span={3}>
+                {item.addTime}
+              </Col>
+              {/* <Col span={3}>
+                共<span>{item.part_count}</span>集
+              </Col> */}
+              <Col span={3}>
+                {item.view_count}
+              </Col>
+              <Col span={4}>
+                <Button type="primary" onClick={() => {updateArticle(item.id)}} >修改</Button>&nbsp;
                 <Button onClick={() => { delArticle(item.id) }} >删除 </Button>
-              </span>
-              </span>
+              </Col>
+            </Row>
           </List.Item>
         )}
       />
-    </>
+    </div>
   )
 
 }

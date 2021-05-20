@@ -1,8 +1,4 @@
-
-
-
-
-#articleList-span{
+#articleList-span {
   display: flex;
   justify-content: space-between;
 }

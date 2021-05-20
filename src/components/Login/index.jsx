@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect} from 'react';
 import 'antd/dist/antd.css';
-import { Footer } from 'antd/lib/layout/layout';
 
 import { Card, Input, Button, Spin, message, Tag} from 'antd';
 import { KeyOutlined, UserOutlined, BulbTwoTone} from '@ant-design/icons';
@@ -89,22 +88,23 @@ function Login(props) {
           <Card title="密码登录" bordered={true}
             // style={{ width: 400 }} //这个内敛样式设置的宽度优先级比外联样式设置的宽度要高
           >
-            <Input id="userName" size="large"
-              placeholder="please input your username!"
-              prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
-              onChange={(e) => { setUsername(e.target.value) }}
-            />
-            <label for="userName">Account</label>
-
-            <Input.Password
-              id="password"
-              size="large"
-              placeholder="please input your password"
-              prefix={<KeyOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
-              onChange={(e) => { setPassword(e.target.value) }}
-              onPressEnter={checkLogin}
-            />
-            <label for="input2">Password</label>
+            <label>Account
+              <Input id="userName" size="large"
+                placeholder="please input your username!"
+                prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+                onChange={(e) => { setUsername(e.target.value) }}
+              />
+            </label>
+            <label >Password
+              <Input.Password
+                id="password"
+                size="large"
+                placeholder="please input your password"
+                prefix={<KeyOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+                onChange={(e) => { setPassword(e.target.value) }}
+                onPressEnter={checkLogin}
+              />
+            </label>
 
             <br /><br />
             <Button type="primary" size="large" block

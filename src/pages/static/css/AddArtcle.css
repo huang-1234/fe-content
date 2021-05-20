@@ -1,4 +1,3 @@
-
 /* 
 红橙黄绿蓝靛紫-RGB-十六进制
 红：255，0，0    #FF0000
@@ -10,125 +9,138 @@
 紫: 255,0,255    #FF00FF
 */
 
-html{
-  --min-font-size:10px;
-  --h1-color:#FF0000;
-  --h2-color:#FF7D00;
-  --h3-color:#FFFF00;
-  --h4-color:#00FF00;
-  --h5-color:#0000FF;
-  --h6-color:#00FFFF;
-  --h7-color:#FF00FF;
+html {
+  --min-font-size: 10px;
+  --h1-color: #FF0000;
+  --h2-color: #FF7D00;
+  --h3-color: #FFFF00;
+  --h4-color: #00FF00;
+  --h5-color: #0000FF;
+  --h6-color: #00FFFF;
+  --h7-color: #FF00FF;
 }
 
-.markdown-content{
-    /* font-size:16px !important; */
-    font-size:var(--min-font-size) !important;
-    max-height: 745px;
-}
-.show-html{
-    padding:10px;
-    border:1px solid #ddd;
-    border-radius: 5px;
-    font-size:var(--min-font-size);
-    height: 745px;
-    background-color: #f0f0f0;
-    overflow: auto;
+.markdown-content {
+  /* font-size:16px !important; */
+  font-size: var(--min-font-size) !important;
+  max-height: 745px;
 }
 
-.show-html h1{
-    font-size:30px;
-    color:var(--h1-color);
+.show-html {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: var(--min-font-size);
+  height: 745px;
+  background-color: #f0f0f0;
+  overflow: auto;
 }
 
-.show-html h2{
-    font-size:28px;
-    border-bottom: 1px solid #cbcbcb;
-    color:var(--h2-color);
-}
-.show-html h3{
-    font-size:24px;
-    color:var(--h3-color);
-}
-.show-html h4{
-    font-size:24px;
-    color:var(--h4-color);
-}
-.show-html h5{
-    font-size:24px;
-    color:var(--h5-color);
-}
-.show-html h6{
-    font-size:24px;
-    color:var(--h6-color);
+.show-html h1 {
+  font-size: 30px;
+  color: var(--h1-color);
 }
 
-.show-html pre{
-    display: block;
-    background-color: #f0f0f0;
-    padding: 5px;
-    border-radius: 5px;
+.show-html h2 {
+  font-size: 28px;
+  border-bottom: 1px solid #cbcbcb;
+  color: var(--h2-color);
 }
-.show-html pre>code{
-    color: rgb(41, 48, 40);
-    background-color: #f6f7f5c0;
+
+.show-html h3 {
+  font-size: 24px;
+  color: var(--h3-color);
+}
+
+.show-html h4 {
+  font-size: 24px;
+  color: var(--h4-color);
+}
+
+.show-html h5 {
+  font-size: 24px;
+  color: var(--h5-color);
+}
+
+.show-html h6 {
+  font-size: 24px;
+  color: var(--h6-color);
+}
+
+.show-html pre {
+  display: block;
+  background-color: #f0f0f0;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.show-html pre>code {
+  color: rgb(41, 48, 40);
+  background-color: #f6f7f5c0;
 }
 .show-html code {
-    background-color: #fff5f5;
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin: 0px 3px; 
-    color: #2cffed; 
-}
-.show-html blockquote{
-    border-left:4px solid #b12828 ;
-    padding: 10px 10px 10px 30px; 
-    background-color: #f8f8f8;
-}
-.introduce-html{
-    padding:10px;
-    border:1px solid #ddd;
-    border-radius: 5px;
-    font-size:16px;
-
-    background-color: #f0f0f0;
+  background-color: #fff5f5;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin: 0px 3px;
+  color: #2cffed;
 }
 
-
-.introduce-html h1{
-    font-size:30px;
+.show-html blockquote {
+  border-left: 4px solid #b12828;
+  padding: 10px 10px 10px 30px;
+  background-color: #f8f8f8;
 }
 
-.introduce-html h2{
-    font-size:28px;
-    border-bottom: 1px solid #cbcbcb;
-}
-.introduce-html h3{
-    font-size:24px;
+.introduce-html {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+
+  background-color: #f0f0f0;
 }
 
-.introduce-html pre{
-    display: block;
-    background-color: #f0f0f0;
-    padding: 5px;
-    border-radius: 5px;
+
+.introduce-html h1 {
+  font-size: 30px;
 }
-.introduce-html pre>code{
-    color: rgb(67, 184, 184);
-    background-color: #f0f0f0;
+
+.introduce-html h2 {
+  font-size: 28px;
+  border-bottom: 1px solid #cbcbcb;
 }
+
+.introduce-html h3 {
+  font-size: 24px;
+}
+
+.introduce-html pre {
+  display: block;
+  background-color: #f0f0f0;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.introduce-html pre>code {
+  color: rgb(67, 184, 184);
+  background-color: #f0f0f0;
+}
+
 .introduce-html code {
-    background-color: #fff5f5;
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin: 0px 3px; 
-    color: #ff502c; 
+  background-color: #fff5f5;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin: 0px 3px;
+  color: #ff502c;
 }
-.introduce-html blockquote{
-    border-left:4px solid #cbcbcb ;
-    padding: 10px 10px 10px 30px; 
-    background-color: #f8f8f8;
+
+.introduce-html blockquote {
+  border-left: 4px solid #cbcbcb;
+  padding: 10px 10px 10px 30px;
+  background-color: #f8f8f8;
 }
-.date-select{
-    margin-top:10px;
+
+.date-select {
+  margin-top: 10px;
 }
