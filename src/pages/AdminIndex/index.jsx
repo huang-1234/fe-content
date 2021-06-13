@@ -21,20 +21,24 @@ import {
 
 import Author from '../../components/Author/Author';
 
-import ContentData from '../../components/DataCenter/ContentData';
-import FollowerData from '../../components/DataCenter/FollowerData';
+import ContentData from '../../components/creatorPage/DataCenter/ContentData';
+import FollowerData from '../../components/creatorPage/DataCenter/FollowerData';
 
 import AddArticle from '../AddArticle';
 import ArticleList from '../ArticleList';
-import CreatorHome from '../../components/CreatorHome';
+import CreatorHome from '../../components/creatorPage/CreatorHome';
+
+// const Author = () => require('../../components/Author/Author')
 
 const { Header, Content, Sider,
   // Footer
 } = Layout;
 const { SubMenu } = Menu;
 
+
 export default function AdminIndex(props) {
   const [collapsed, setCollapsed] = useState(true);
+
   const onCollapse = collapsed => {
     setCollapsed(collapsed);
   };
@@ -42,35 +46,37 @@ export default function AdminIndex(props) {
   // const [subpath, setSubpath] = useState('initialState');
 
   // 
+  const { _CreatorPaths } = require('../routers');
+  const { e_key } = require('../routers') 
+
   const gotoHome = (e) => {
-    console.log('/creator/home/');
-    props.history.push('/creator/home/')
+    // console.log('/creator/home/');
+    console.log(_CreatorPaths.home);
+    props.history.push(_CreatorPaths.home)
   }
 
   const handleData = (e) => {
     // setPath()
-    if ('ContentData' === e.key) {
-      console.log('/creator/data/content');
-      props.history.push('/creator/data/content')
-    } else if ('FollowerData' === e.key) {
-      console.log('/creator/data/follower');
-      props.history.push('/creator/data/follower')
+    if (e_key.data_content === e.key) {
+      console.log(_CreatorPaths.data_content);
+      props.history.push(_CreatorPaths.data_content)
+    } else if (e_key.data_follower === e.key) {
+      console.log(_CreatorPaths.data_follower);
+      props.history.push(_CreatorPaths.data_follower)
     } else {
-      console.log('/creator/data/content');
-      props.history.push('/creator/data/content')
+      // console.log(_CreatorPaths.data_content);
+      // props.history.push(_CreatorPaths.data_content)
     }
-
-    
   }
   const handleClickArticle = e => {
-    console.log('handleClickArticle.e-----------:', e);
+    console.log('handleClickArticle.e-----------<<:', e);
     // 这里的e.key一定要注意了，一定要和你写的那个点击的item的key相同
-    if (e.key === 'add-arti') {
-      console.log('/creator/add');
-      props.history.push('/creator/add')
-    } else if ('arti-list' === e.key) {
-      console.log('/creator/content/article/essays/');
-      props.history.push('/creator/content/article/essays/')
+    if (e_key.add_article === e.key) {
+       console.log(_CreatorPaths.add + '<<');
+      props.history.push(_CreatorPaths.add)
+    } else if (e_key.article_list === e.key) {
+       console.log(_CreatorPaths.article_essays+'<<');
+      props.history.push(_CreatorPaths.article_essays)
     }
   }
 
@@ -99,58 +105,58 @@ export default function AdminIndex(props) {
               <span>首页</span>
             </Menu.Item>
             <SubMenu
-              key="data-center"
+              key={e_key.data_center}
               onClick={handleData}
               icon={<DatabaseOutlined />}
               title={<span>数据中心</span>}
             >
-              <Menu.Item key="ContentData">
+              <Menu.Item key={e_key.data_content}>
                 <span>内容数据</span>
               </Menu.Item>
-              <Menu.Item key="FollowerData">
+              <Menu.Item key={e_key.data_follower}>
                 <span>关注者数据</span>
               </Menu.Item>
             </SubMenu>
 
             <SubMenu
-              key="arti-mng"
+              key={e_key.article_manage}
               onClick={handleClickArticle}
               icon={<ProfileTwoTone />}
               title={ <span>内容管理</span>}
             >
-              <Menu.Item key="add-arti">
+              <Menu.Item key={e_key.add_article}>
                 <span>编写文章</span>
               </Menu.Item>
-              <Menu.Item key="arti-list">
+              <Menu.Item key={e_key.article_list}>
                 <span>文章管理</span>
               </Menu.Item>
 
             </SubMenu>
 
             <SubMenu
-              key="activity"
+              key={e_key.activity}
               onClick={handleActivity}
               icon={<FlagOutlined />}
               title={<span>活动中心</span>}
             >
-              <Menu.Item key="apply-activity">
+              <Menu.Item key={e_key.activity_apply}>
                 <span>申请活动</span>
               </Menu.Item>
-              <Menu.Item key="activity-manage">
+              <Menu.Item key={e_key.activity_manage}>
                 <span>活动管理</span>
               </Menu.Item>
             </SubMenu>
 
             <SubMenu
-              key="help"
+              key={e_key.help}
               onClick={handleHelp}
               icon={<QuestionCircleTwoTone />}
               title={<span>帮助中心</span>}
             >
-              <Menu.Item key="commonQuesiton">
+              <Menu.Item key={e_key.help_qustion}>
                 <span>常见问题</span>
               </Menu.Item>
-              <Menu.Item key="report">
+              <Menu.Item key={e_key.help_report}>
                 <span>举报</span>
               </Menu.Item>
 

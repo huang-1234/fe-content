@@ -1,4 +1,5 @@
-let ipUrl = 'http://127.0.0.1:7001/admin/'
+// let ipUrl = 'http://127.0.0.1:7001/admin/';
+let ipUrl = 'http://localhost:7001/admin/'
 
 let servicePath = {
 
