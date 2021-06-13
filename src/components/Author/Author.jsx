@@ -20,7 +20,7 @@ const Author = () => {
         </div>
         
         <div className="author-introduction">
-          <Divider>Detail</Divider>
+          {/* <Divider>Detail</Divider> */}
 
           {/* <Avatar size={38} icon={<UserOutlined />} className="account"
             style={{

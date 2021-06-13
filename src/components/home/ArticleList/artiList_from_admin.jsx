@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
-import '../static/css/ArticleList.css';
+// import '../static/css/ArticleList.css';
 import {
+  Skeleton,
   List, Space , Modal, message, Button,
 } from 'antd';
 import { ClockCircleOutlined, StarOutlined, LikeOutlined, MessageOutlined,EyeOutlined } from '@ant-design/icons'
@@ -12,6 +13,7 @@ import servicePath from '../../config/apiUrl';
 
 const { confirm } = Modal;
 
+const routerCreatorAdd = '/creator/add/?id=';
 
 function ArticleList(props) {
 
@@ -62,8 +64,6 @@ function ArticleList(props) {
     });
   }
 
-
-  const routerCreatorAdd = '/creator/add/?id='; // 在编写文章的地方修改某文章，需把该文章的id传过去，然后那边自己查询
   //修改文章，there is a bug, the function are exe for 7
   const updateArticle = (id, checked) => {
     console.log('updateArticle.id----------', id, checked);
@@ -77,7 +77,7 @@ function ArticleList(props) {
       {text}
     </Space>
   );
-/*   // mock数据
+  // mock数据
   const listData = [];
   for (let i = 0;i < 5;i++) {
     listData.push({
@@ -89,7 +89,6 @@ function ArticleList(props) {
       typeName:'js'
     });
   }
-   */
   return (
     <>
       

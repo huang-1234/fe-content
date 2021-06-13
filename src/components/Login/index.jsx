@@ -1,5 +1,8 @@
 
-import React, { useState, useEffect} from 'react';
+import React, {
+  useState,
+  // useEffect
+} from 'react';
 import 'antd/dist/antd.css';
 
 import { Card, Input, Button, Spin, message, Tag} from 'antd';
@@ -19,7 +22,7 @@ function Login(props) {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const [typeInfo, setTypeInfo] = useState([]) // 文章类别信息
+  // const [typeInfo, setTypeInfo] = useState([]) // 文章类别信息
 
   //注册
   // function Rejister() {
@@ -27,8 +30,12 @@ function Login(props) {
   // }
 
   function checkLogin() {
+    if (window.sessionStorage.getItem('openID')) {
+      console.log('session.openID<<')
+      props.history.push('/');
+    }
     const TimeOUT = 1500;
-    console.log('admin:username:',username,'password:',password);
+     console.log('admin:username:',username,'password:',password);
     setIsLoading(true);
 
     if (!username) {
@@ -46,7 +53,7 @@ function Login(props) {
     }
     const dataProps = {
       'username': username,
-      'password':password,
+      'password': password,
     }
     axios({
       method: 'post',
@@ -55,10 +62,10 @@ function Login(props) {
       withCredentials:true   //前后端是否共享session
     }).then(
       (res) => {
-        console.log('res.data:', res.data);
+        console.log('res.data in checkLogin<<', res.data);
         const loginStatus = res.data.data;
         setIsLoading(false);
-        console.log(loginStatus);
+        console.log('loginStatus in checkLogin<<', loginStatus);
         if (LOGIN_SUCCESSFULLY === loginStatus) {
           // 判断用户的账户密码是否在数据库当中，以及是否正确，正确，则跳转到登录后的首页，否则直接else报错
           // 使用window.localStorage
@@ -71,11 +78,10 @@ function Login(props) {
           sStorage.setItem('openID', res.data.openID);
           console.log("sStorage['openID']:", sStorage['openID']);
 
-
           console.log(props.history);
-          props.history.push('/creator/home');
+          props.history.push('/');
         } else if (LOGIN_FAILED === loginStatus) {
-          // props.history.push('/login/');
+          props.history.push('/login/');
           message.error('username or password was wrong');
         }
     })

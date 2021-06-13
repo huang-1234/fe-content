@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect ,useRef} from 'react'
+import ReactDOM from 'react-dom';
 import marked from 'marked';
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css';
@@ -10,11 +11,14 @@ import '../static/css/AddArtcle.css';
 import axios from 'axios';
 import servicePath from '../../config/apiUrl';
 
+import {debounce} from '../../utils/debounce' // 防抖函数
+
 const { Option } = Select;
 const { TextArea } = Input;
 
 export default function AddArticle(props) {
 
+  const debounceDelayTime = 2000;
 
   const [articleId, setArticleId] = useState(0)  // 文章的ID，如果是0说明是新增加，如果不是0，说明是修改
   const [articleTitle, setArticleTitle] = useState('')   //文章标题
@@ -26,7 +30,7 @@ export default function AddArticle(props) {
   const [introducehtml, setIntroducehtml] = useState('article introduce') //简介的html内容
 
   const [showDate, setShowDate] = useState()   //发布日期
-  const [updateDate, setUpdateDate] = useState() //修改日志的日期
+  // const [updateDate, setUpdateDate] = useState() //修改日志的日期
   const [typeInfo, setTypeInfo] = useState([]) // 文章类别信息
   const [selectedType, setSelectType] = useState(1) //选择的文章类别
 
@@ -51,9 +55,11 @@ export default function AddArticle(props) {
   方法体也只是用marked进行简单的转换，当然对应的CSS是我们对应好的。
   */
   const changeContent = (e) => {
-    setArticleContent(e.target.value)
+    // setArticleContent(e.target.value)
     let html = marked(e.target.value)
-    setMarkdownContent(html)
+    console.log('我的防抖技术你真的用了吗！！！用了个寂寞，你压根就没吊用我');
+    debounce(()=> setMarkdownContent(html),debounceDelayTime)
+    // setMarkdownContent(html)
   }
 
   const changeIntroduce = (e) => {
@@ -62,10 +68,41 @@ export default function AddArticle(props) {
     setIntroducehtml(html)
   }
 
+/* 
+  const refHtml = useRef("refHtml");
+  const refMarkdown = useRef('refMarkdown')
+  const [isLinkage, setIsLinkage] = useState(true); // 是否添加联动
 
+  const linkage = (isLinkage) => { //实现联动的添加和取消
+    if (isLinkage) {
+      ReactDOM.findDOMNode(refHtml).addEventListener('scroll', () => {
+        let top = this.scrollTop;
+        let left = this.scrollLeft;
+        ReactDOM.findDOMNode(refMarkdown).scrollTo(left,top)
+      })
+      ReactDOM.findDOMNode(refMarkdown).addEventListener('scroll', () => {
+        let top = this.scrollTop;
+        let left = this.scrollLeft;
+        ReactDOM.findDOMNode(refHtml).scrollTo(left,top)
+      })
 
-
-
+      // let domMarkdown = document.querySelector('markdown-content')
+      // let domHtml = document.querySelector('show-html')
+      // domMarkdown.addEventListener('scroll', () => {
+      //   let top = this.scrollTop;
+      //   let left = this.scrollLeft;
+      //   domHtml.scrollTo(left,top)
+      // })
+      // domHtml.addEventListener('scroll', () => {
+      //   let top = this.scrollTop;
+      //   let left = this.scrollLeft;
+      //   domMarkdown.scrollTo(left,top)
+      // })
+    } else { // 取消联动
+      
+    }
+  }
+ */
   function getTypeInfo() {
 
     axios({
@@ -87,7 +124,19 @@ export default function AddArticle(props) {
   // 只执行一次
   useEffect(() => {
     getTypeInfo();
+    return () => {
+      
+    }
   }, []);
+
+  // useEffect(() => {
+  //   setIsLinkage(true)
+  //   linkage(isLinkage);
+  //   return () => {
+  //     setIsLinkage(false)
+  //     linkage(isLinkage);
+  //   };
+  // }, [isLinkage]);
 
   // 保存文章的验证
   function saveArticle() {
@@ -136,15 +185,15 @@ export default function AddArticle(props) {
         withCredentials: true
       }).then(
         res => {
-           const insertId = res.data.insertId;
+          const insertId = res.data.insertId;
            console.log('/pages/AddArticle/index.jsx---insertId', insertId);
           setArticleId(insertId);
-           const save_arti_data = res.data;
+          const save_arti_data = res.data;
            console.log('/AddArticle/saveArticle/save_arti_data---:,', save_arti_data);
           if (res.data.isSuccess) {
             message.success('arti_save_successfully');
           } else {
-             message.error('failed_save_arti');
+            message.error('failed_save_arti');
           }
         }
       )
@@ -184,6 +233,7 @@ export default function AddArticle(props) {
         setArticleContent(res.data.data[0].article_content)
         let html = marked(res.data.data[0].article_content)
         setMarkdownContent(html)
+
         setIntroducemd(res.data.data[0].introduce)
         let tmpInt = marked(res.data.data[0].introduce)
         setIntroducehtml(tmpInt)
@@ -193,15 +243,16 @@ export default function AddArticle(props) {
       }
     )
   }
-   useEffect(() => {
-    getTypeInfo()
-    //获得文章ID
+  useEffect(() => {
+  getTypeInfo()
+  //获得文章ID
     let tmpId = props.match.params.id
-    if (tmpId) {
-      setArticleId(tmpId)
-      getArticleById(tmpId)
-    }
-  }, [])
+    console.log('/pages/AddArticle/tmpId', tmpId);
+  if (tmpId) {
+    setArticleId(tmpId)
+    getArticleById(tmpId)
+  }
+}, [])
 
   const width_left_and_right = 24;
 
@@ -252,16 +303,20 @@ export default function AddArticle(props) {
           <Row gutter={10} >
             <Col span={12}>
               <TextArea
+                // ref="refMarkdown"
                 className="markdown-content"
                 rows={35}
                 placeholder="arti-content"
+                // onChange={(e)=>debounce(changeContent(e),debounceDelayTime)}
                 onChange={changeContent}
               />
 
             </Col>
             {/* 使用marked转换文章后的预览部分 */}
             <Col span={12}>
-              <div className="show-html"
+              <div
+                // ref="refHtml"
+                className="show-html"
                 dangerouslySetInnerHTML={{ __html: markdownContent }}
               >
               </div>
