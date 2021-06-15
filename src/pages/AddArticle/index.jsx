@@ -74,6 +74,11 @@ export default function AddArticle(props) {
   }
 
 
+  const refHtml = useRef("refHtml");
+  const refMarkdown = useRef('refMarkdown')
+/* 
+  const [isLinkage, setIsLinkage] = useState(true); // 是否添加联动
+
   const refHtml = useRef();
   const refMarkdown = useRef()
   // const [isLinkage, setIsLinkage] = useState(true); // 是否添加联动
@@ -322,7 +327,7 @@ export default function AddArticle(props) {
                 className="markdown-content"
                 rows={35}
                 placeholder="arti-content"
-                onChange={(e)=>debounce(()=>changeContent(e),debounceDelayTime)} // 选择的debounce是立即执行函数
+                onChange={debounce(changeContent,debounceDelayTime)} // 选择的debounce是立即执行函数
                 // onChange={(e)=>debounce(()=>changeContent,debounceDelayTime)}    // 使用闭包机制实现
                 // onChange={changeContent}
                 // onScroll={linkage}
