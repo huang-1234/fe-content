@@ -45,9 +45,9 @@ export default function AdminIndex(props) {
   // const [path, setPath] = useState('initialState');
   // const [subpath, setSubpath] = useState('initialState');
 
-  // 
+  //
   const { _CreatorPaths } = require('../routers');
-  const { e_key } = require('../routers') 
+  const { e_key } = require('../routers')
 
   const gotoHome = (e) => {
     // console.log('/creator/home/');
@@ -72,10 +72,10 @@ export default function AdminIndex(props) {
     console.log('handleClickArticle.e-----------<<:', e);
     // 这里的e.key一定要注意了，一定要和你写的那个点击的item的key相同
     if (e_key.add_article === e.key) {
-       console.log(_CreatorPaths.add + '<<');
+      console.log(_CreatorPaths.add + '<<');
       props.history.push(_CreatorPaths.add)
     } else if (e_key.article_list === e.key) {
-       console.log(_CreatorPaths.article_essays+'<<');
+      console.log(_CreatorPaths.article_essays + '<<');
       props.history.push(_CreatorPaths.article_essays)
     }
   }
@@ -88,10 +88,10 @@ export default function AdminIndex(props) {
     console.log('/creator/add');
   }
 
-  
+
   return (
     <>
-      <Layout style={{minHeight: '100vh',}}>
+      <Layout style={{ minHeight: '100vh', }}>
         <Sider collapsible
           collapsed={collapsed}
           onCollapse={onCollapse}
@@ -122,7 +122,7 @@ export default function AdminIndex(props) {
               key={e_key.article_manage}
               onClick={handleClickArticle}
               icon={<ProfileTwoTone />}
-              title={ <span>内容管理</span>}
+              title={<span>内容管理</span>}
             >
               <Menu.Item key={e_key.add_article}>
                 <span>编写文章</span>
@@ -173,9 +173,9 @@ export default function AdminIndex(props) {
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               <div>
                 <Route path="/creator/" exact component={AddArticle} />
-                <Route path="/creator/add/" exact  component={AddArticle} />
-                <Route path="/creator/add/:id" exact  component={AddArticle} />
-                <Route path="/creator/content/article/essays/" exact component={ArticleList} />
+                <Route path="/creator/add/" exact component={AddArticle} />
+                <Route path="/creator/add/:id" exact component={AddArticle} />
+                <Route path="/creator/content/article/essays" exact component={ArticleList} />
 
                 <Route path="/creator/home/" exact component={CreatorHome} />
 

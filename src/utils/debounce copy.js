@@ -1,7 +1,4 @@
 export function debounce(fn ,delay) {
-  function fn1() {
-    console.log('iam func 1');
-  }
   let timeId = null;
   return (function () {
     const context = this;

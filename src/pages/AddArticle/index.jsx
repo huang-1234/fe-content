@@ -1,5 +1,5 @@
 import React, { useState, useEffect ,useRef} from 'react'
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import marked from 'marked';
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css';
@@ -18,7 +18,7 @@ const { TextArea } = Input;
 
 export default function AddArticle(props) {
 
-  const debounceDelayTime = 1800;
+  const debounceDelayTime = 800;
   const preContent = window.localStorage.getItem('ArticleContent');
 
   const [articleId, setArticleId] = useState(0)  // 文章的ID，如果是0说明是新增加，如果不是0，说明是修改
@@ -213,7 +213,7 @@ export default function AddArticle(props) {
           if (res.data.isSuccess) {
             message.success('arti_save_successfully');
           } else {
-            message.error('failed_save_arti');
+            message.error('failed_save_article');
           }
         }
       )
@@ -352,8 +352,8 @@ export default function AddArticle(props) {
             onChange={changeIntroduce}
           > </TextArea>
           <div className="introduce-html"
-            dangerouslySetInnerHTML={{ __html: introducehtml}}
-          ></div>
+    dangerouslySetInnerHTML={{__html: introducehtml}}
+    />
         </Col>
         {/* 文章发布时间 */}
         <Col span={12}>

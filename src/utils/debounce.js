@@ -1,3 +1,5 @@
+
+
 export function debounce(method, wait, immediate) {
   let timeout
   return function(...args) {
@@ -10,6 +12,7 @@ export function debounce(method, wait, immediate) {
       // 如果定时器不存在，则立即执行，并设置一个定时器，wait毫秒后将定时器置为null
       // 这样确保立即执行后wait毫秒内不会被再次触发
       let callNow = !timeout
+      console.log('immediate<<',immediate)
       timeout = setTimeout(() => {
         timeout = null
       }, wait)
@@ -26,3 +29,18 @@ export function debounce(method, wait, immediate) {
     }
   }
 }
+export function mydebounce(fn, delay) {
+  let timeid;
+  return function (...args) {
+    const ctx = this;
+    const params = args;
+    if (timeid) {
+      clearTimeout(timeid);
+    } else {
+      timeid = setTimeout(() => {
+        fn.apply(ctx, params);
+      },delay)
+    }
+  }
+}
+

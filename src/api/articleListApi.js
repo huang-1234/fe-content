@@ -1,4 +1,4 @@
-/* 
+/*
 import adminInstanceAxios from '../utils/request'
 import adminUrl from './apiUrl.js'
 
@@ -6,21 +6,21 @@ import adminUrl from './apiUrl.js'
 export function getArticleListApi() {
   adminInstanceAxios.get(adminUrl.getArticleList)
     .then((response) => {
-      console.log('getArticleListApi<<',response.data)
-      return response.data;
+      console.log('getArticleListApi<<',response.res)
+      return response.res;
   })
 }
  */
-import {getArticleListRequest} from './request';
-import servicePath  from '../config/apiUrl'
+import { getArticleListRequest } from './request';
+import servicePath from '../config/apiUrl'
 // import adminUrl from './apiUrl.js';
 
 export function getArticleListApi() {
-  getArticleListRequest().then((data) => {
-    console.log('getArticleListApi__data<<', data)
-    return data;
+  getArticleListRequest().then((res) => {
+    console.log('getArticleListApi__res<<', res)
+    return res.data;
   })
     .catch((err) => {
-    console.log(err,'err')
-  })
+      console.log(err, 'err')
+    })
 }
