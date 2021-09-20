@@ -12,7 +12,7 @@ import Author from '../../components/Author/Author.jsx'
 import './index.css'
 
 // import { articleList } from './mock.js';
-import { getArticleListApi } from '../../api/articleListApi.js'
+// import { getArticleListApi } from '../../api/articleListApi.js'
 
 const MainPage = (props) => {
   // const listData = articleList.data;
